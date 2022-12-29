@@ -1,4 +1,5 @@
 //axios import buraya gelecek
+import axios from 'axios'
 
 var benimIP;
 
@@ -70,3 +71,71 @@ async function ipAdresimiAl(){
 
 
 //kodlar buraya gelecek
+
+const cards = document.querySelector(".cards");
+const contention = async function (){
+await ipAdresimiAl();
+axios
+.get(`https://apis.ergineer.com/ipgeoapi/${benimIP}`)
+.then ((response) => {
+	cards.appendChild(bilgi(response.data))
+})
+.catch((error)  => {
+	console.log(`Error: ${error}`)
+});
+};
+contention();
+	
+
+ 
+
+
+function bilgi(nesne){
+const divCard = document.createElement("div");
+divCard.classList.add("card");
+
+const img = document.createElement("img");
+img.src = nesne.ülkebayrağı;
+divCard.appendChild(img);
+
+const divCardİnfo = document.createElement("div");
+divCardİnfo.classList.add("card-info");
+divCard.appendChild(divCardİnfo);
+
+const ipAdresi = document.createElement("h3");
+ipAdresi.classList.add("ip");
+ipAdresi.textContent = nesne.sorgu;
+divCardİnfo.appendChild(ipAdresi);
+
+const ulkeBilgisi = document.createElement("p");
+ulkeBilgisi.classList.add("ulke");
+ulkeBilgisi.textContent = `${nesne.ülke} (${nesne.ülkeKodu})`;
+divCardİnfo.appendChild(ulkeBilgisi);
+
+const enlemBoylam = document.createElement("p");
+enlemBoylam.textContent = `Enlem: ${nesne.enlem} Boylam: ${nesne.boylam}`
+divCardİnfo.appendChild(enlemBoylam);
+
+const sehir = document.createElement("p");
+sehir.textContent = `Şehir: ${nesne.şehir}`;
+divCardİnfo.appendChild(sehir);
+
+const saatDilimi = document.createElement("p");
+saatDilimi.textContent = `Saat Dilimi: ${nesne.saatdilimi}`;
+divCardİnfo.appendChild(saatDilimi);
+
+const paraBirimi = document.createElement("p");
+paraBirimi.textContent = `Para Birimi: ${nesne.parabirimi}`;
+divCardİnfo.appendChild(paraBirimi);
+
+const isp = document.createElement("p");
+isp.textContent = `ISP: ${nesne.isp}`;
+divCardİnfo.appendChild(isp);
+
+
+
+return divCard;
+}
+
+
+
